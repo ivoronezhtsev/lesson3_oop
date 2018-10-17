@@ -46,4 +46,11 @@ public class Tank {
         }
     }
 
+    /**
+     * Вернуть объем жидкости оставшийся в резервуаре
+     * @return объем жидкости оставшийся в резервуаре
+     */
+    public int getVolume() {
+        return mVolume;
+    }
 }

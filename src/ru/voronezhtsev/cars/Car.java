@@ -3,15 +3,27 @@ package ru.voronezhtsev.cars;
 /**
  * Базовый класс автомобиля, легковой класс
  */
-public class Car {
+public abstract class Car {
+    public static final int PASSENGER_CAR = 1;
+    public static final int MINIVAN = 2;
+    public static final int JEEP = 3;
 
-    public Car(String model) {
+    private String mName;
+    public Car(String name) {
+        mName = name;
     }
 
     /**
-     * Заглушить автомобиль,
+     * Имя( марка + модель или любое друго обозначение автомобиля)
+     * @return марка + модель или любое друго обозначение автомобиля, уникальное
      */
-    public void stop() {
-
+    public String getName() {
+        return mName;
     }
+
+    /**
+     * Вернуть тип автомобиля (Легковой, минивэн, внедорожник)
+     * @return тип автомобиля (Легковой, минивэн, внедорожник)
+     */
+    public abstract int getType();
 }
