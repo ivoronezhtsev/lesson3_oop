@@ -9,8 +9,8 @@ import java.util.Locale;
  */
 public class Tank {
 
-    private static final String FILL_PRINT_TEXT = "Емкость с [%s] наполнена полностью";
     private static final String POUR_PRINT_TEXT = "Взяли [%d] л жидкости [%s]";
+    private static final String OVERLOAD_TEXT = "Не возможно налить [%s] [%d] л в резервуар. Произойдет переполнение";
 
     private String mLiquid;
     private int mVolume;
@@ -22,17 +22,26 @@ public class Tank {
      * @param capacity емкость резервуара, л
      */
     public Tank(String liquid, int capacity) {
+        this(liquid, capacity, capacity);
+    }
+
+    public Tank(String liquid, int capacity, int volume) {
         mLiquid = liquid;
         mCapacity = capacity;
-        mVolume = capacity;
+        mVolume = volume;
     }
 
     /**
-     * Наполнить резервуара жидкостью до полна
+     * Наполнить резервуар жидкостью
+     * @param volume объем, л
      */
-    public void fill() {
-        mVolume = mCapacity;
-        System.out.println(String.format(Locale.US, FILL_PRINT_TEXT, mLiquid));
+    public void fill(int volume) {
+        if(mVolume + volume <= mCapacity) {
+            mVolume += volume;
+
+        } else {
+            System.out.println(String.format(Locale.US, OVERLOAD_TEXT, mLiquid, volume));
+        }
     }
 
     /**

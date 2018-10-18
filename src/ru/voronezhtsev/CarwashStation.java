@@ -10,13 +10,14 @@ import java.util.Locale;
  */
 public class CarwashStation {
 
-    private static final String CLOSED_MMESSAGE = "Извините мойка закрыта";
     private static final String WASH_MESSAGE = "Автомобиль модель [%s] помыт";
     private static final String NO_ENAUGH_CARWASH_LIQUID = "Извините, недостаточно моющего средства на станции";
     private static final String WATER = "Вода";
     private static final int WATER_TANK_CAPACITY = 1000;
     private static final String SOUP = "Автошампунь Sonax";
     private static final int SOUP_TANK_CAPACITY = 600;
+    private static final String WORKING_OUT_LIQUID = "Жидкая грязь с автомобиля";
+    private static final int COLLECTOR_CAPACITY = (WATER_TANK_CAPACITY + SOUP_TANK_CAPACITY) * 3;
 
     private static final int CAR_WATER_VOLUME = 80;
     private static final int CAR_SOUP_VOLUME = 20;
@@ -27,18 +28,20 @@ public class CarwashStation {
 
     private Tank mWaterTank = new Tank(WATER, WATER_TANK_CAPACITY);
     private Tank mSoupTank = new Tank(SOUP, SOUP_TANK_CAPACITY);
+    private Tank mCollector = new Tank(WORKING_OUT_LIQUID, COLLECTOR_CAPACITY, 0);
 
     public void wash(Car car) {
         if(checkEnoughLiquid(car)) {
             System.out.println(String.format(Locale.US, WASH_MESSAGE, car.getName()));
+            mCollector.fill(mCollector.pour());
         } else {
             System.out.println(NO_ENAUGH_CARWASH_LIQUID);
         }
     }
 
-    public void closeForRefillTanks() {
-        mSoupTank.fill();
-        mWaterTank.fill();
+    public void refillTanks() {
+        mSoupTank.fill(SOUP_TANK_CAPACITY);
+        mWaterTank.fill(WATER_TANK_CAPACITY);
     }
 
     private boolean checkEnoughLiquid(Car car) {
